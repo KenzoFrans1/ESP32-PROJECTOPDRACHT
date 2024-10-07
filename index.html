@@ -13,7 +13,7 @@
     <link rel="icon" type="image/png" href="favicon.ico">
     <link rel="stylesheet" type="text/css" href="style.css">
     <meta charset="UTF-8">
-    <style>
+    <!-- <style>
         /* Basic styling for better visualization */
         body {
             font-family: Arial, sans-serif;
@@ -97,7 +97,7 @@
                 width: 90%;
             }
         }
-    </style>
+    </style> -->
 </head>
 <body>
     <div class="topnav">
@@ -123,10 +123,17 @@
 
             <!-- GPIO Control Card -->
             <div class="card">
-                <h2>Control GPIO 2</h2>
+                <h2>!!! NOODKNOP !!!</h2>
                 <button id="onButton" class="onButton">ON</button>
-                <button id="offButton" class="offButton">OFF</button>
-                <p class="gray-label">Last Value Sent: <span id="valueSent">--</span></p>
+                <!-- <button id="offButton" class="offButton">OFF</button>
+                <p class="gray-label">Last Value Sent: <span id="valueSent">--</span></p> -->
+            </div>
+
+            <!-- Servo Display Card -->
+            <div class="card">
+                <h2>SERVO MOTOR</h2>
+                <p class="reading"><span id="servoContainer">-- °</span></p>
+                <p class="gray-label">Last Reading: <span id="servoTimestamp">--</span></p>
             </div>
         </div>
     </div>
@@ -143,6 +150,8 @@
     const offButton = document.getElementById('offButton');
     const temperatureContainer = document.getElementById('temperatureContainer');
     const temperatureTimestamp = document.getElementById('temperatureTimestamp');
+    const servoContainer = document.getElementById('servoContainer');
+    const servoTimestamp = document.getElementById('servoTimestamp');
     const latestValueSent = document.getElementById('valueSent');
     const bleStateContainer = document.getElementById('bleState');
 
@@ -222,6 +231,8 @@
             console.log("Decoded value: ", decodedValue);
             temperatureContainer.innerHTML = decodedValue + " °C";
             temperatureTimestamp.innerHTML = getDateTime();
+            servoContainer.innerHTML = decodedValue + " °";
+            servoTimestamp.innerHTML = getDateTime();
         })
         .catch(error => {
             console.log('Error: ', error);
@@ -244,6 +255,8 @@
         console.log("Characteristic value changed: ", newValueReceived);
         temperatureContainer.innerHTML = newValueReceived + " °C";
         temperatureTimestamp.innerHTML = getDateTime();
+        servoContainer.innerHTML = newValueReceived + " °";
+        servoTimestamp.innerHTML = getDateTime();
     }
 
     function writeOnCharacteristic(value){
@@ -282,6 +295,8 @@
                         bleStateContainer.style.color = "#d13a30";
                         temperatureContainer.innerHTML = "-- °C";
                         temperatureTimestamp.innerHTML = "--";
+                        servoContainer.innerHTML = "-- °";
+                        servoTimestamp.innerHTML = "--";
                     })
                     .catch(error => {
                         console.log("An error occurred:", error);
